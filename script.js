@@ -530,6 +530,133 @@
 
 //////////////VERSION 9////////////////////
 
+//
+// var todoList = {
+//
+// todos: [],
+//
+// addTodo: function(newElement){
+//   this.todos.push({
+//     todoText: newElement,
+//     completed: false
+//   })
+//   // this.displayTodo;
+//   console.log(this.todos)
+// },
+//
+// changeTodo: function(position, changedElement){
+//   this.todos[position].todoText = changedElement
+//   console.log(this.todos)
+// },
+//
+// deleteTodo: function(position){
+//     this.todos.splice(position, 1)
+//     console.log(this.todos)
+//   },
+//
+// toggleCompleted: function(position){
+//     var todo = this.todos[position]
+//   todo.completed = !todo.completed
+//   console.log(this.todos)
+//   },
+//
+// toggleAll: function(){
+//     var todo = this.todos;
+//     var counter = 0;
+//
+//     for (var i = 0; i < todo.length; i++){
+//
+//       if (todo[i].completed === true){
+//         counter++
+//       }
+//     }
+//
+//     if (counter === todo.length) {
+//       for (var i = 0; i < todo.length; i++){
+//         todo[i].completed = false
+//       }
+//     }
+//     else {
+//       for (var i = 0; i < todo.length; i++){
+//         todo[i].completed = true
+//       }
+//     }
+//   }
+// }
+//
+//
+// var handlers = {
+//
+// addTodo: function(){
+//   var addTodoTextInput = document.getElementById("addTodoInput");
+//   todoList.addTodo(addTodoTextInput.value);
+//   addTodoTextInput.value = ""
+//   view.displayTodos();
+// },
+//
+// changeTodo: function(){
+//   var changeTodoPositionInput = document.getElementById("changeTodoPositionInput")
+//   var changeTodoTextInput = document.getElementById("changeTodoInput");
+//
+//   todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);
+//   changeTodoPositionInput.value = "";
+//   changeTodoTextInput.value = "";
+//   view.displayTodos();
+// },
+//
+// deleteTodo: function(){
+//   var deleteTodoInput = document.getElementById("deleteTodoInput").value;
+//   todoList.deleteTodo(deleteTodoInput);
+//   deleteTodoInput = "";
+//   view.displayTodos();
+// },
+//
+// toggleCompleted: function(){
+//   var toggleCompletedPosition = document.getElementById("toggleCompletedPosition").valueAsNumber
+//   todoList.toggleCompleted(toggleCompletedPosition);
+//   toggleCompletedPosition = "";
+//   view.displayTodos();
+// },
+//
+// toggleAll: function(){
+//   todoList.toggleAll();
+//   view.displayTodos();
+// }
+// }
+//
+// var view = {
+//
+// displayTodos: function(){
+//
+// var todosUl = document.querySelector("ul");
+// todosUl.innerHTML = "";
+//
+// for (var i = 0; i < todoList.todos.length; i++) {
+//   var todoLi = document.createElement("li");
+//   var todoTextWithCompletion = ""
+//   var todo = todoList.todos[i]
+//
+// if (todo.completed === true){
+//   todoTextWithCompletion = "(X)" + todo.todoText
+// }
+//
+// else {
+//   todoTextWithCompletion = "( )" + todo.todoText;
+// }
+//   todoLi.textContent = todoTextWithCompletion
+//   todosUl.appendChild(todoLi);
+// }
+//
+// }
+// }
+
+
+
+
+
+
+//////////////VERSION 10////////////////////
+
 
 var todoList = {
 
@@ -604,10 +731,8 @@ changeTodo: function(){
   view.displayTodos();
 },
 
-deleteTodo: function(){
-  var deleteTodoInput = document.getElementById("deleteTodoInput").value;
-  todoList.deleteTodo(deleteTodoInput);
-  deleteTodoInput = "";
+deleteTodo: function(position){
+  todoList.deleteTodo(position);
   view.displayTodos();
 },
 
@@ -623,6 +748,8 @@ toggleAll: function(){
   view.displayTodos();
 }
 }
+
+
 
 var view = {
 
@@ -643,9 +770,30 @@ if (todo.completed === true){
 else {
   todoTextWithCompletion = "( )" + todo.todoText;
 }
+
+  todoLi.id = i;
   todoLi.textContent = todoTextWithCompletion
+  todoLi.appendChild(this.createDeleteButton())
   todosUl.appendChild(todoLi);
+}
+},
+
+createDeleteButton: function(){
+  var deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  deleteButton.className = "deleteButton";
+  return deleteButton;
+},
+
+setUpEventListeners: function(){
+  var todosUl = document.querySelector("ul");
+
+  todosUl.addEventListener("click", function(event){
+  var elementClicked = event.target;
+  if (elementClicked.className === "deleteButton"){
+    handlers.deleteTodo(parseInt(elementClicked.parentNode.id))}})
 }
 
 }
-}
+
+view.setUpEventListeners();
